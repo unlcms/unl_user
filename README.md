@@ -1,7 +1,6 @@
-# UNL_CAS module
+# UNL_USER module
 
 This module does the following
-* allows users to log in via UNL CAS
 * allows searching and importing users into the system
 * stores UNL information, such as the 'eduPersonAffiliation', to help with access restrictions
 
@@ -34,4 +33,11 @@ $primaryAffiliation = $userDataService->get('unl_cas', \Drupal::currentUser()->i
 //All UNL user data
 $allUserData = $userDataService->get('unl_cas', \Drupal::currentUser()->id());
 
+```
+
+## Testing
+Tests are built in and can be run with the core `run-tests.sh` script
+
+```
+php ./core/scripts/run-tests.sh --module unl_user --verbose --url "http://your-base-url.com/unlcms2/"
 ```
