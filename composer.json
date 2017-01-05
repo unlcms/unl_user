@@ -1,0 +1,15 @@
+{
+  "name": "unlcms/unl_user",
+  "description": "UNL User data integration",
+  "type": "drupal-module",
+  "authors": [
+    {
+      "name": "Michael Fairchild (mfairchild365)",
+      "homepage": "https://www.drupal.org/u/mfairchild365",
+      "role": "Maintainer"
+    }
+  ],
+  "require":{
+    "symfony/ldap": "~3.2.1"
+  }
+}
