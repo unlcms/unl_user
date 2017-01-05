@@ -2,14 +2,14 @@
 
 namespace Drupal\unl_user\Tests;
 
-use Drupal\simpletest\WebTestBase;
+use Drupal\Tests\UnitTestCase;
 use Drupal\unl_user\PersonDataQuery;
 
 /**
  * Tests for the unl_user module.
  * @group unl_user
  */
-class PersonDataQueryTest extends WebTestBase
+class PersonDataQueryTest extends UnitTestCase
 {
 
   /**
@@ -27,7 +27,7 @@ class PersonDataQueryTest extends WebTestBase
 
     $result = $query->getUserData('test-user2');
 
-    $this->assertEqual($result['uid'], 'test-user2', 'uid should be set');
+    $this->assertEquals($result['uid'], 'test-user2', 'uid should be set');
     
     $this->assertStandardPersonRecord($result);
   }
@@ -57,8 +57,8 @@ class PersonDataQueryTest extends WebTestBase
     $this->assertTrue(!empty($record['uid']), 'uid should be set');
     $this->assertTrue(!empty($record['mail']), 'an email address should be provided');
     $this->assertTrue(is_array($record['data']['unl']), 'should have a UNL data set');
-    $this->assertEqual($record['data']['unl']['source'], 'directory.unl.edu', 'The source should be directory.unl.edu for testing');
-    $this->assertEqual(
+    $this->assertEquals($record['data']['unl']['source'], 'directory.unl.edu', 'The source should be directory.unl.edu for testing');
+    $this->assertEquals(
       array_keys($record['data']['unl']),
       ['fullName', 'affiliations', 'primaryAffiliation', 'department', 'major', 'studentStatus', 'source'],
       'Data should have a standard structure');
