@@ -10,6 +10,6 @@
     }
   ],
   "require":{
-    "symfony/ldap": "~3.2.1"
+    "symfony/ldap": "~3.4"
   }
 }
