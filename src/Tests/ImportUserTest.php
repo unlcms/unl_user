@@ -2,14 +2,19 @@
 
 namespace Drupal\unl_user\Tests;
 
-use Drupal\simpletest\WebTestBase;
+use Drupal\Tests\BrowserTestBase;
 
 /**
  * Tests for the unl_user module.
  * @group unl_user
  */
-class ImportUserTest extends WebTestBase
+class ImportUserTest extends BrowserTestBase
 {
+
+  /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'stark';
 
   /**
    * Modules to install

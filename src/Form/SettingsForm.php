@@ -59,9 +59,9 @@ class SettingsForm extends ConfigFormBase {
     $affiliation = \Drupal::service('user.data')->get('unl_user', \Drupal::currentUser()->id(), 'primaryAffiliation');
 
     if (!$result || $result['data']['unl']['source'] !== PersonDataQuery::SOURCE_LDAP) {
-      drupal_set_message($this->t('LDAP is NOT being used. Please ensure credentials are correct. Your primary affiliation is: @affiliation', ['@affiliation'=>$affiliation]), 'warning');
+      $this->messenger()->addWarning($this->t('LDAP is NOT being used. Please ensure credentials are correct. Your primary affiliation is: @affiliation', ['@affiliation' => $affiliation]));
     } else {
-      drupal_set_message($this->t('LDAP is being used, your primary affiliation is: @affiliation', ['@affiliation'=>$affiliation]));
+      $this->messenger()->addStatus($this->t('LDAP is being used, your primary affiliation is: @affiliation', ['@affiliation' => $affiliation]));
     }
     
     return parent::buildForm($form, $form_state);
