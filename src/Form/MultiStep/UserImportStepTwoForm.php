@@ -45,11 +45,17 @@ class UserImportStepTwoForm extends UserImportForm {
       
       return $form; //exit early
     }
-    
+
     $matches = [];
     foreach ($results as $details) {
-      $affiliations = implode(', ', $details['data']['unl']['affiliations']);
-      $matches[$details['uid']] = $details['data']['unl']['fullName'] . ' (' . $affiliations . ') (' . $details['uid'] . ')';
+      // Generate an affiliations string if user has any affiliations.
+      if ($details['data']['unl']['affiliations']) {
+        $affiliations = ' (' . implode(', ', $details['data']['unl']['affiliations']) . ')';
+      }
+      else {
+        $affiliations = '';
+      }
+      $matches[$details['uid']] = $details['data']['unl']['fullName'] . $affiliations . ' (' . $details['uid'] . ')';
     }
 
     $form['uid'] = array(
