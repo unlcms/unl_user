@@ -54,6 +54,6 @@ class ImportUserTest extends BrowserTestBase
     ), t('Import Selected User'));
     $this->assertText('imported test-user2', 'able to import a user');
 
-    $this->assertTrue(preg_match('/user\/(\d)\/edit/', $this->getUrl()), 'Should take you to the edit page for the new user');
+    $this->assertTrue((bool) preg_match('/user\/(\d)\/edit/', $this->getUrl()), 'Should take you to the edit page for the new user');
   }
 }
