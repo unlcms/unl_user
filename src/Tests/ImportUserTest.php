@@ -2,14 +2,19 @@
 
 namespace Drupal\unl_user\Tests;
 
-use Drupal\simpletest\WebTestBase;
+use Drupal\Tests\BrowserTestBase;
 
 /**
  * Tests for the unl_user module.
  * @group unl_user
  */
-class ImportUserTest extends WebTestBase
+class ImportUserTest extends BrowserTestBase
 {
+
+  /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'stark';
 
   /**
    * Modules to install
@@ -49,6 +54,6 @@ class ImportUserTest extends WebTestBase
     ), t('Import Selected User'));
     $this->assertText('imported test-user2', 'able to import a user');
 
-    $this->assertTrue(preg_match('/user\/(\d)\/edit/', $this->getUrl()), 'Should take you to the edit page for the new user');
+    $this->assertTrue((bool) preg_match('/user\/(\d)\/edit/', $this->getUrl()), 'Should take you to the edit page for the new user');
   }
 }

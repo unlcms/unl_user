@@ -3,7 +3,7 @@
 namespace Drupal\unl_user\Form;
 
 use Drupal\Core\Form\FormBase;
-use Drupal\user\PrivateTempStoreFactory;
+use Drupal\Core\TempStore\PrivateTempStoreFactory;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 abstract class UserImportForm extends FormBase {
 
   /**
-   * @var \Drupal\user\PrivateTempStore
+   * @var \Drupal\Core\TempStore\PrivateTempStoreFactory
    */
   protected $store;
   

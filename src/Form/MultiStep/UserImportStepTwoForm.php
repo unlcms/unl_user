@@ -4,6 +4,7 @@ namespace Drupal\unl_user\Form\MultiStep;
 
 
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Url;
 use Drupal\unl_user\Form\UserImportForm;
 use Drupal\unl_user\Helper;
@@ -33,7 +34,7 @@ class UserImportStepTwoForm extends UserImportForm {
     
     if (empty($results)) {
       //No results could be found, so restart the process
-      drupal_set_message($this->t('No results could be found for: @search', array('@search' => $search)), 'error');
+      $this->messenger()->addError($this->t('No results could be found for: @search', ['@search' => $search]));
       $form_state->setRedirect('unl_user.user_import');
 
       $form['actions']['#type'] = 'actions';
@@ -89,7 +90,7 @@ class UserImportStepTwoForm extends UserImportForm {
     $helper = new Helper();
     $user = $helper->initializeUser($form_state->getValue('uid'));
     
-    drupal_set_message($this->t('imported @uid', array('@uid' => $form_state->getValue('uid'))));
+    $this->messenger()->addStatus($this->t('imported @uid', ['@uid' => $form_state->getValue('uid')]));
     
     //Redirect to the edit the new user
     $form_state->setRedirect('entity.user.edit_form',array('user' => $user->id()));
