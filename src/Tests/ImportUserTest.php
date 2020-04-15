@@ -50,9 +50,9 @@ class ImportUserTest extends BrowserTestBase
     $this->assertText('Records Found. Select a user to import.', 'Able to search for a user');
 
     $this->drupalPostForm(NULL, array(
-      'uid' => 'test-user2'
+      'uid' => 'hhusker1'
     ), t('Import Selected User'));
-    $this->assertText('imported test-user2', 'able to import a user');
+    $this->assertText('imported hhusker1', 'able to import a user');
 
     $this->assertTrue((bool) preg_match('/user\/(\d)\/edit/', $this->getUrl()), 'Should take you to the edit page for the new user');
   }

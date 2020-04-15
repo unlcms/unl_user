@@ -25,9 +25,9 @@ class PersonDataQueryTest extends UnitTestCase
   public function testGetUserData() {
     $query = new PersonDataQuery();
 
-    $result = $query->getUserData('test-user2');
+    $result = $query->getUserData('hhusker1');
 
-    $this->assertEquals($result['uid'], 'test-user2', 'uid should be set');
+    $this->assertEquals($result['uid'], 'hhusker1', 'uid should be set');
     
     $this->assertStandardPersonRecord($result);
   }
