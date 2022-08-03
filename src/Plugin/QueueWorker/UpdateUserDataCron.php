@@ -1,6 +1,7 @@
 <?php
 
 namespace Drupal\unl_user\Plugin\QueueWorker;
+
 use Drupal\Core\Queue\QueueWorkerBase;
 use Drupal\unl_user\Helper;
 use Drupal\user\Entity\User;
@@ -14,9 +15,8 @@ use Drupal\user\Entity\User;
  *   cron = {"time" = 60}
  * )
  */
-class UpdateUserDataCron extends QueueWorkerBase
-{
-  
+class UpdateUserDataCron extends QueueWorkerBase {
+
   protected $processedIds = [];
 
   /**
@@ -44,34 +44,34 @@ class UpdateUserDataCron extends QueueWorkerBase
    *
    * @see \Drupal\Core\Cron::processQueues()
    */
-  public function processItem($data)
-  {
+  public function processItem($data) {
     if (!isset($data->uid)) {
       return;
     }
-    
+
     if (in_array($data->uid, $this->processedIds)) {
-      //We already processed this item during this cron, so skip it.
+      // We already processed this item during this cron, so skip it.
       return;
     }
-    
-    //Save this in the list of processed Ids
+
+    // Save this in the list of processed IDs.
     $this->processedIds[] = $data->uid;
-    
+
     $helper = new Helper();
     $user = User::load($data->uid);
-    
+
     if (!$user) {
-      //User couldn't be loaded so skip it.
+      // User couldn't be loaded so skip it.
       \Drupal::logger('unl_user')->notice('UNL User data for ' . $data->uid . ' failed to update, user not found');
       return;
     }
-    
+
     $result = $helper->updateUserData($user);
-    
+
     if ($result) {
       \Drupal::logger('unl_user')->info('UNL User data for ' . $user->getAccountName() . ' updated');
-    } else {
+    }
+    else {
       \Drupal::logger('unl_user')->notice('UNL User data for ' . $user->getAccountName() . ' failed to update');
     }
   }

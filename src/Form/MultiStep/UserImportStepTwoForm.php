@@ -2,7 +2,6 @@
 
 namespace Drupal\unl_user\Form\MultiStep;
 
-
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\Url;
@@ -31,7 +30,7 @@ class UserImportStepTwoForm extends UserImportForm {
 
     $query = new PersonDataQuery();
     $results = $query->search($search);
-    
+
     if (empty($results)) {
       //No results could be found, so restart the process
       $this->messenger()->addError($this->t('No results could be found for: @search', ['@search' => $search]));
@@ -43,29 +42,29 @@ class UserImportStepTwoForm extends UserImportForm {
         '#type' => 'link',
         '#url' => Url::fromRoute('unl_user.user_import')
       );
-      
+
       return $form; //exit early
     }
 
     $matches = [];
     foreach ($results as $details) {
       // Generate an affiliations string if user has any affiliations.
-      if ($details['data']['unl']['affiliations']) {
-        $affiliations = ' (' . implode(', ', $details['data']['unl']['affiliations']) . ')';
+      if ($details['data']['unl']['eduPersonAffiliation']) {
+        $affiliations = ' (' . implode(', ', $details['data']['unl']['eduPersonAffiliation']) . ')';
       }
       else {
         $affiliations = '';
       }
-      $matches[$details['uid']] = $details['data']['unl']['fullName'] . $affiliations . ' (' . $details['uid'] . ')';
+      $matches[$details['uid']] = $details['data']['unl']['displayName'] . ' (' . $details['data']['unl']['nuid'] . '/' . $details['data']['unl']['unl_uid'] .')' . $affiliations;
     }
 
     $form['uid'] = array(
       '#type' => 'radios',
-      '#title' => sizeof($matches).' Records Found. Select a user to import.',
+      '#title' => sizeof($matches).' people found. Select a person to add to the site:',
       '#required' => true,
       '#options' => $matches,
     );
-    
+
     $form['actions']['#type'] = 'actions';
     $form['actions']['start_over'] = array(
       '#title' => $this->t('Start Over'),
@@ -92,12 +91,12 @@ class UserImportStepTwoForm extends UserImportForm {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    
+
     $helper = new Helper();
     $user = $helper->initializeUser($form_state->getValue('uid'));
-    
+
     $this->messenger()->addStatus($this->t('imported @uid', ['@uid' => $form_state->getValue('uid')]));
-    
+
     //Redirect to the edit the new user
     $form_state->setRedirect('entity.user.edit_form',array('user' => $user->id()));
   }

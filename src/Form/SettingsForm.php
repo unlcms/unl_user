@@ -48,22 +48,30 @@ class SettingsForm extends ConfigFormBase {
         '#required' => TRUE,
     );
     $form['password'] = array(
-        '#type' => 'password',
+        '#type' => 'textfield',
         '#title' => 'Password',
+        '#default_value' => $config->get('password'),
         '#required' => TRUE,
     );
+    $form['username_format'] = array(
+      '#type' => 'radios',
+      '#title' => 'Username format',
+      '#default_value' => $config->get('username_format'),
+      '#required' => TRUE,
+      '#options' => ['myunl' => 'My.UNL (hhusker1)', 'nuid' => 'NUID (12345678)'],
+    );
 
-    //indicate whether or not LDAP is working
+    // Indicate if LDAP is working or not.
     $query = new PersonDataQuery();
     $result = $query->getUserData(\Drupal::currentUser()->getAccountName());
-    $affiliation = \Drupal::service('user.data')->get('unl_user', \Drupal::currentUser()->id(), 'primaryAffiliation');
+    $affiliation = \Drupal::service('user.data')->get('unl_user', \Drupal::currentUser()->id(), 'eduPersonPrimaryAffiliation');
 
     if (!$result || $result['data']['unl']['source'] !== PersonDataQuery::SOURCE_LDAP) {
       $this->messenger()->addWarning($this->t('LDAP is NOT being used. Please ensure credentials are correct. Your primary affiliation is: @affiliation', ['@affiliation' => $affiliation]));
     } else {
       $this->messenger()->addStatus($this->t('LDAP is being used, your primary affiliation is: @affiliation', ['@affiliation' => $affiliation]));
     }
-    
+
     return parent::buildForm($form, $form_state);
   }
 
@@ -83,6 +91,7 @@ class SettingsForm extends ConfigFormBase {
     $config->set('uri', $form_state->getValue('uri'));
     $config->set('dn', $form_state->getValue('dn'));
     $config->set('password', $form_state->getValue('password'));
+    $config->set('username_format', $form_state->getValue('username_format'));
 
     $config->save();
     parent::submitForm($form, $form_state);

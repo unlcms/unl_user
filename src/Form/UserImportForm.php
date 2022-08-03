@@ -15,7 +15,7 @@ abstract class UserImportForm extends FormBase {
    * @var \Drupal\Core\TempStore\PrivateTempStoreFactory
    */
   protected $store;
-  
+
   public function __construct(PrivateTempStoreFactory $temp_store_factory) {
     $this->store = $temp_store_factory->get('multistep_data');
   }
@@ -25,7 +25,7 @@ abstract class UserImportForm extends FormBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('user.private_tempstore')
+      $container->get('tempstore.private')
     );
   }
 

@@ -1,17 +1,16 @@
 <?php
 
 namespace Drupal\unl_user;
+
 use Drupal\user\Entity\User;
 use Drupal\user\UserDataInterface;
 
 /**
  * Helper functions for unl_user
  */
-class Helper
-{
+class Helper {
 
-  function __construct()
-  {
+  function __construct() {
     //nothing to do here
   }
 
@@ -33,36 +32,35 @@ class Helper
       $user->activate();
       $user->save();
 
-      //The first time that they log in, try to update userdata
+      //The first time that they log in, try to update userdata.
       $this->updateUserData($user);
     }
-    
+
     return $user;
   }
 
   /**
    * Update custom UNL specific user data for a given user.
-   * 
+   *
    * Updating a user would look something like this:
    * $helper = new Helper();
    * $user = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
    * $helper->updateUserData($user);
-   * 
+   *
    * @param User $user
    *
    * @return bool
    */
-  public function updateUserData(User $user)
-  {
+  public function updateUserData(User $user) {
     $query = new PersonDataQuery();
     $data = $query->getUserData($user->getAccountName());
-    
+
     if (!$data) {
       //No data to be found
       return false;
     }
-    
-    //Update the email address
+
+    // Update the email address.
     $user->setEmail($data['mail']);
     $user->save();
 
@@ -76,7 +74,7 @@ class Helper
     }
 
     $userDataService->set('unl_user', $user->id(), 'last-update', time());
-    
+
     return true;
   }
 }
