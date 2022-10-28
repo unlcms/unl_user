@@ -6,16 +6,16 @@ use Drupal\user\Entity\User;
 use Drupal\user\UserDataInterface;
 
 /**
- * Helper functions for unl_user
+ * Helper functions for unl_user.
  */
 class Helper {
 
   function __construct() {
-    //nothing to do here
+    // Nothing to do here.
   }
 
   /**
-   * Import a UNL user into the system and return the drupal User object
+   * Import a UNL user into the system and return the Drupal User object.
    *
    * @param $username
    *
@@ -32,7 +32,13 @@ class Helper {
       $user->activate();
       $user->save();
 
-      //The first time that they log in, try to update userdata.
+      // If using the CAS module, set the "Allow user to log in via CAS" setting.
+      if (\Drupal::moduleHandler()->moduleExists('cas')) {
+        $externalauth = \Drupal::service('externalauth.externalauth');
+        $externalauth->linkExistingAccount($username, 'cas', $user);
+      }
+
+      // Initialize users_data values.
       $this->updateUserData($user);
     }
 
