@@ -3,7 +3,7 @@ description: 'Populate user data with values from LDAP & allow searching for use
 package: UNL
 
 type: module
-core_version_requirement: ^8 || ^9
+core_version_requirement: ^8 || ^9 || ^10
 
 version: 2.x
 configure: unl_user.settings
