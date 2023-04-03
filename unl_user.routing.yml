@@ -4,7 +4,7 @@ unl_user.user_import:
     _form: '\Drupal\unl_user\Form\MultiStep\UserImportStepOneForm'
     _title: 'Import User from UNL Directory'
   requirements:
-    _permission: 'administer users'
+    _permission: 'administer users+create users'
     
 unl_user.user_import_step_two:
   path: '/admin/people/import-step-2'
@@ -12,7 +12,7 @@ unl_user.user_import_step_two:
     _form: '\Drupal\unl_user\Form\MultiStep\UserImportStepTwoForm'
     _title: 'Import User from UNL Directory'
   requirements:
-    _permission: 'administer users'
+    _permission: 'administer users+create users'
 
 unl_user.settings:
   path: '/admin/config/people/unl_user'
