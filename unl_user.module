@@ -12,6 +12,16 @@ function unl_user_install() {
 }
 
 /**
+ * Implements hook_user_format_name_alter().
+ */
+function unl_user_user_format_name_alter(&$name, &$surname) {
+  $displayName = \Drupal::service('user.data')->get('unl_user', \Drupal::currentUser()->id(), 'displayName');
+  if ($displayName) {
+    $name = $displayName;
+  }
+}
+
+/**
  * Implements hook_user_login().
  */
 function unl_user_user_login(\Drupal\Core\Session\AccountInterface $account) {
