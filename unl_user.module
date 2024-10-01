@@ -16,7 +16,7 @@ function unl_user_install() {
  * Implements hook_user_format_name_alter().
  */
 function unl_user_user_format_name_alter(&$name, AccountInterface $account) {
-  $displayName = \Drupal::service('user.data')->get('unl_user', \Drupal::currentUser()->id(), 'displayName');
+  $displayName = \Drupal::service('user.data')->get('unl_user', $account->id(), 'displayName');
   if ($displayName) {
     $name = $displayName;
   }
