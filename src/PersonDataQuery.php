@@ -36,7 +36,7 @@ class PersonDataQuery {
       }
     }
     catch (\Exception $e) {
-      // Don't do anything, just go on to try the Directory method.
+      \Drupal::logger('unl_user')->error($e->getMessage());
     }
 
     // Next, if LDAP didn't work, try Directory service.
