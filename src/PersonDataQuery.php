@@ -162,14 +162,14 @@ class PersonDataQuery {
       $userData['data']['unl'] = [
         'source' => $data['data-source'],
 
-        'nuid' => $data['employeeID'][0] ?: $data['unluncwid'][0], // NUID (12345678)
+        'nuid'                => $data['employeeID'][0],           // NUID (12345678)
         'unl_uid'             => $data['cn'][0],                   // My.UNL ID (hhusker1)
 
         'displayName'         => $data['displayName'][0],          // Full Name
         'givenName'           => $data['givenName'][0],            // First Name
         'sn'                  => $data['sn'][0],                   // Last Name
 
-        'departmentNumber'     => $data['departmentNumber'][0] ?: '', // Org unit for staff/faculty
+        'departmentNumber'     => $data['departmentNumber'][0] ?: $data['unlHROrgUnitNumber'][0], // Org unit for staff/faculty
         'memberOf'             => $data['memberOf'] ?: [],         // Grouper groups
         'eduPersonAffiliation' => $data['eduPersonAffiliation'],   // Array of all affiliations
         'eduPersonPrimaryAffiliation' => $data['eduPersonPrimaryAffiliation'][0], // Primary affiliation
