@@ -1,6 +1,8 @@
 <?php
 
 use Drupal\Core\Session\AccountInterface;
+use Drupal\unl_user\Helper;
+use Drupal\user\Entity\User;
 use Drupal\user\UserInterface;
 
 /**
@@ -26,12 +28,26 @@ function unl_user_user_format_name_alter(&$name, AccountInterface $account) {
  * Implements hook_user_login().
  */
 function unl_user_user_login(AccountInterface $account) {
-  // Schedule a user data update for the account.
-  /** @var \Drupal\Core\Queue\QueueFactory $queue_factory */
-  $queue_factory = \Drupal::service('queue');
-  /** @var \Drupal\Core\Queue\QueueInterface $queue */
-  $queue = $queue_factory->get('cron_unl_user_update_user_data', true);
-  $item = new \stdClass();
-  $item->uid = $account->id();
-  $queue->createItem($item);
+  $last_login = $account->getLastLoginTime();
+  $created = $account->getCreatedTime();
+
+  if (empty($last_login) || $last_login == 0 || $last_login == $created) {
+    // First login by the user. Update the user data immediately to ensure correctness.
+    $helper = new Helper();
+    $user = User::load($account->id());
+    $result = $helper->updateUserData($user);
+
+    if ($result) {
+      \Drupal::logger('unl_user')->info('UNL User data for ' . $user->getAccountName() . ' updated during first login');
+    }
+    else {
+      \Drupal::logger('unl_user')->notice('UNL User data for ' . $user->getAccountName() . ' failed to update during first login.');
+    }
+  }
+  else {
+    // Schedule a user data update for the account. Can be done slightly lazily
+    // during the termination event since this user already has data populated
+    // that is likely still current.
+    \Drupal::service('unl_user.update_user_terminate_subscriber')->queueUpdate($account);
+  }
 }

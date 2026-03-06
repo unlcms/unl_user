@@ -1,0 +1,5 @@
+services:
+  unl_user.update_user_terminate_subscriber:
+    class: Drupal\unl_user\EventSubscriber\UpdateUserBackgroundSubscriber
+    tags:
+      - { name: event_subscriber }
