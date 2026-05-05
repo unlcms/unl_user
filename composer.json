@@ -15,7 +15,7 @@
     }
   ],
   "require": {
-    "drupal/core": "^8 || ^9 || ^10",
-    "symfony/ldap": "~3.4"
+    "drupal/core": "^10 || ^11",
+    "symfony/ldap": "^6"
   }
 }
